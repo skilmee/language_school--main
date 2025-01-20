@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fedorova Diana</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=edb004d3-0777-4984-aada-a67aa106e691&lang=eu_US" type="text/javascript"></script>
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <span>Языковая школа</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="map.html">Карта</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="account.html">Личный кабинет</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <main>
+        <div class="container py-4">
+            <h2 class="mb-4">Карта образовательных ресурсов</h2>
+            
+            <!-- Фильтры -->
+            <div class="row mb-4">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Search resources...">
+                        <button class="btn btn-primary" type="button" onclick="searchResources()">
+                            <i class="bi bi-search"></i> Поиск
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-select" id="resourceType" onchange="filterResources()">
+                        <option value="all">Все ресурсы</option>
+                        <option value="education">Образовательные учреждения</option>
+                        <option value="community">Культурные центры</option>
+                        <option value="library">Публичные библиотеки</option>
+                        <option value="courses">Частные курсы русского языка</option>
+                        <option value="cafe">Языковые кафе и клубы</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Карта -->
+            <div class="row">
+                <div class="col-md-8">
+                    <div id="map" style="width: 100%; height: 600px;"></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Список мест</h5>
+                            <span class="badge bg-primary" id="resourceCount"></span>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="list-group list-group-flush" id="resourcesList">
+                                <!-- Места будут добавлены динамически -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Информация о ресурсе</h5>
+                        </div>
+                        <div class="card-body" id="resourceInfo">
+                            <p class="text-muted">Выберите точку на карте, чтобы узнать подробности</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Футер -->
+        <footer id="footer" class="py-4 bg-dark text-white mt-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="footer-section">
+                            <h5 class="mb-3">О нас</h5>
+                            <p class="contact-info">
+                                Email: info@yazykovayaschool.com<br>
+                                Телефон: +7 (965) 404-68-48
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="map.js"></script>
+</body>
+</html> 

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Account - GlobalSpeak</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <span>Языковая школа</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="account.html">Личный аккаунт</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Область уведомлений -->
+    <div id="notifications" class="position-fixed top-0 end-0 p-3" style="z-index: 1050"></div>
+
+    <!-- Основной контент -->
+    <main>
+        <div class="content-wrapper">
+            <div class="container py-4">
+                <h2 class="mb-4">Мои заказы</h2>
+                <!-- Таблица заявок -->
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Название курса</th>
+                                <th>Дата занятия</th>
+                                <th>Общая стоимость</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersList">
+                            <!-- Заявки будут добавлены динамически -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Модальные окна -->
+        <!-- Модальное окно для просмотра деталей -->
+        <div class="modal fade" id="detailsModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Детали заказа</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body" id="orderDetails">
+                        <!-- Детали будут добавлены динамически -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Модальное окно для редактирования -->
+        <div class="modal fade" id="editModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Редактирование заявки</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editForm">
+                            <input type="hidden" id="editOrderId">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Дата начала</label>
+                                    <input type="date" class="form-control" id="editStartDate" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Время начала</label>
+                                    <select class="form-select" id="editStartTime" required>
+                                        <!-- Времена будут добавлены динамически -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Количество студентов</label>
+                                <input type="number" class="form-control" id="editStudentsCount" min="1" max="20" required>
+                                <div id="editGroupDiscount" class="text-success mt-1" style="display: none;">
+                                    <i class="bi bi-check-circle"></i> Применена групповая скидка 15%
+                                </div>
+                            </div>
+
+                            <!-- Автоматические скидки и наценки -->
+                            <div class="alert alert-info mb-3" id="editAutoDiscounts">
+                                <!-- Информация о скидках будет добавлена динамически -->
+                            </div>
+
+                            <div class="mb-3">
+                                <h6>Дополнительные опции</h6>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="editIntensiveCourse">
+                                            <label class="form-check-label" for="editIntensiveCourse">
+                                                Интенсивный курс (+20%)
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="editSupplementary">
+                                            <label class="form-check-label" for="editSupplementary">
+                                                Дополнительные материалы (+2000₽/студент)
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="editPersonalized">
+                                            <label class="form-check-label" for="editPersonalized">
+                                                Индивидуальные занятия (+1500₽/неделя)
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="editExcursions">
+                                            <label class="form-check-label" for="editExcursions">
+                                                Культурные экскурсии (+25%)
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="editAssessment">
+                                            <label class="form-check-label" for="editAssessment">
+                                                Оценка уровня языка (+300₽)
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="editInteractive">
+                                            <label class="form-check-label" for="editInteractive">
+                                                Интерактивная платформа (+50%)
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Итоговая стоимость</label>
+                                <div class="d-flex align-items-center">
+                                    <input type="text" class="form-control" id="editTotalPrice" readonly>
+                                    <div id="editPriceDetails" class="ms-2">
+                                        <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="tooltip" title="Нажмите для деталей расчета">
+                                            <i class="bi bi-info-circle"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="button" class="btn btn-primary" onclick="updateOrder()">Сохранить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Модальное окно подтверждения удаления -->
+        <div class="modal fade" id="deleteModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Подтверждение удаления</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Вы уверены, что хотите удалить этот заказ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Назад</button>
+                        <button type="button" class="btn btn-danger" onclick="confirmDelete()">Удалить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Футер -->
+    <footer id="footer" class="py-4 bg-dark text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="footer-section">
+                        <h5 class="mb-3">О нас</h5>
+                        <p class="contact-info">
+                            Email: info@yazykovayaschool.com<br>
+                            Телефон: +7 (965) 404-68-48
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Скрипты -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="account.js"></script>
+</body>
+</html> 
